@@ -1104,7 +1104,7 @@
             let finalPrice = base + batBonus + warBonus - screenLoss - bodyLoss - funcLoss - batLoss - boxLoss;
             finalPrice = Math.max(0, finalPrice);
 
-            let appleEstimatedPrice = Math.floor((base * 0.75) / 100) * 100;
+            let appleEstimatedPrice = Math.floor((base * 0.95) / 100) * 100;
             let difference = finalPrice - appleEstimatedPrice;
 
             if (difference > 0 && finalPrice > 0) {

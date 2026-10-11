@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-   <!-- 新增：Facebook, LINE 等社群分享 Open Graph 標籤 -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="星果科技 | 3C智能估價大廳 - 二手手機即時回收價格">
-<meta property="og:description" content="全台大數據即時行情，保證無隱藏扣款。最高預估收購價馬上算！舊機貼換新機，享最高 NT$ 1,500 額外折扣。">
-<!-- 記得把副檔名改成 .jpg -->
-<meta property="og:image" content="https://starjb1.github.io/star/logo.jpg">
-<meta property="og:image:alt" content="星果科技 Logo">
+    <!-- 新增：網頁基本描述 (SEO) -->
+    <meta name="description" content="星果科技 - 專門收購各大品牌二手手機。AI 智能即時估價，三分鐘掌握舊機價值。流程透明，現場現金結清。">
+    
+    <!-- 新增：Facebook, LINE 等社群分享 Open Graph 標籤 -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="星果科技 | 3C智能估價大廳 - 二手手機即時回收價格">
+    <meta property="og:description" content="全台大數據即時行情，保證無隱藏扣款。最高預估收購價馬上算！舊機貼換新機，享最高 NT$ 1,500 額外折扣。">
+    <!-- 更新：使用 Google 雲端硬碟直連圖片網址 -->
+    <meta property="og:image" content="https://drive.google.com/uc?export=view&id=1G_jzXBXBhFLEbDKHms9T9unLU0AFPzPN">
+    <meta property="og:image:alt" content="星果科技 Logo">
     
     <!-- 新增：Twitter (X) 分享標籤 -->
     <meta name="twitter:card" content="summary_large_image">
@@ -71,12 +74,12 @@
 </head>
 <body class="text-slate-800 antialiased">
 
-   <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-3 cursor-pointer">
-                    <!-- 使用 GitHub 倉庫內的本地圖片 -->
-                    <img src="logo.jpg" alt="星果科技 Logo" class="h-10 w-auto object-contain rounded">
+                    <!-- 更新：使用 Google 雲端硬碟直連圖片網址 -->
+                    <img src="https://drive.google.com/uc?export=view&id=1G_jzXBXBhFLEbDKHms9T9unLU0AFPzPN" alt="星果科技 Logo" class="h-10 w-auto object-contain rounded">
                     <span class="font-bold text-xl tracking-tight text-dark hidden sm:block">星果科技<span class="text-primary">回收估價</span></span>
                 </div>
                 <div class="flex items-center space-x-6">
@@ -712,7 +715,7 @@
             ],
             models: {
                 'apple': [
-                    { id: 'ip17pm', name: 'iPhone 17 Pro Max', colors: colorSets.pro17, capacities: [{ cap: '256GB', price: 31000 }, { cap: '512GB', price: 33500 }, { cap: '1TB', price: 37000 }, { cap: '2TB', price: 41000 }] },
+                    { id: 'ip17pm', name: 'iPhone 17 Pro Max', colors: colorSets.pro17, capacities: [{ cap: '256GB', price: 30000 }, { cap: '512GB', price: 33000 }, { cap: '1TB', price: 37000 }, { cap: '2TB', price: 41000 }] },
                     { id: 'ip17p', name: 'iPhone 17 Pro', colors: colorSets.pro17, capacities: [{ cap: '256GB', price: 27000 }, { cap: '512GB', price: 31000 }, { cap: '1TB', price: 33000 }] },
                     { id: 'ip17', name: 'iPhone 17', colors: colorSets.base17, capacities: [{ cap: '256GB', price: 20000 }, { cap: '512GB', price: 23000 }] },
                     { id: 'ip16pm', name: 'iPhone 16 Pro Max', colors: colorSets.pro16, capacities: [{ cap: '256GB', price: 23000 }, { cap: '512GB', price: 25000 }, { cap: '1TB', price: 27000 }] },

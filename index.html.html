@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 新增：網頁基本描述 (SEO) -->
+    <meta name="description" content="星果科技 - 專門收購各大品牌二手手機。AI 智能即時估價，三分鐘掌握舊機價值。流程透明，現場現金結清。">
+    
+    <!-- 新增：Facebook, LINE 等社群分享 Open Graph 標籤 -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="星果科技 | 3C智能估價大廳 - 二手手機即時回收價格">
+    <meta property="og:description" content="全台大數據即時行情，保證無隱藏扣款。最高預估收購價馬上算！舊機貼換新機，享最高 NT$ 1,500 額外折扣。">
+    <!-- 更新：使用 Google 雲端硬碟直連圖片網址 -->
+    <meta property="og:image" content="https://drive.google.com/uc?export=view&id=1G_jzXBXBhFLEbDKHms9T9unLU0AFPzPN">
+    <meta property="og:image:alt" content="星果科技 Logo">
+    
+    <!-- 新增：Twitter (X) 分享標籤 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="星果科技 | 3C智能估價大廳 - 二手手機即時回收價格">
+    <meta name="twitter:description" content="全台大數據即時行情，保證無隱藏扣款。最高預估收購價馬上算！">
+    <meta name="twitter:image" content="https://drive.google.com/uc?export=view&id=1G_jzXBXBhFLEbDKHms9T9unLU0AFPzPN">
+
+    <title>3C智能估價大廳 | 二手手機即時回收價格</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0ea5e9', // Sky 500
+                        secondary: '#10b981', // Emerald 500
+                        dark: '#0f172a', // Slate 900
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f8fafc; }
+        
+        /* 隱藏原生 Radio 按鈕 */
+        input[type="radio"].hidden-radio {
+            display: none;
+        }
+        
+        /* 自訂 Radio 選擇卡片樣式 */
+        input[type="radio"].hidden-radio:checked + label {
+            border-color: #0ea5e9;
+            background-color: #f0f9ff;
+            box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.2);
+        }
+        input[type="radio"].hidden-radio:checked + label .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* 平滑過渡效果 */
+        .transition-all { transition: all 0.3s ease; }
+        
+        /* 價格跳動動畫 */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); color: #10b981; }
+            100% { transform: scale(1); }
+        }
+        .price-animate { animation: pop 0.4s ease-out; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased">
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3 cursor-pointer">
+                    <!-- 更新：使用 Google 雲端硬碟直連圖片網址 -->
+                    <img src="https://drive.google.com/uc?export=view&id=1G_jzXBXBhFLEbDKHms9T9unLU0AFPzPN" alt="星果科技 Logo" class="h-10 w-auto object-contain rounded">
+                    <span class="font-bold text-xl tracking-tight text-dark hidden sm:block">星果科技<span class="text-primary">回收估價</span></span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <div class="hidden md:flex space-x-8">
+                        <a href="#" class="text-primary font-medium border-b-2 border-primary py-5">線上估價</a>
+                        <a href="#" onclick="openModal('process-modal')" class="text-slate-500 hover:text-primary transition-colors py-5">回收流程</a>
+                        <a href="#" onclick="openModal('faq-modal')" class="text-slate-500 hover:text-primary transition-colors py-5">常見問題</a>
+                    </div>
+                    <!-- 快速開啟價格管理的按鈕 -->
+                    <button onclick="requestPassword()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-gear"></i> 調整回收價
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 更新：改為動態輪播幻燈片 -->
+    <header class="relative h-[320px] md:h-[360px] overflow-hidden shadow-inner group bg-slate-900">
+        <!-- 幻燈片 1 -->
+        <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100 bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-700 flex flex-col justify-center items-center text-center p-4">
+            <div class="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDEwaDQwdjFIMHptMCAyMGg0MHYxSDB6TTEwIDB2NDBoLTFWMHptMjAgMHY0MGgtMVYweiIgZmlsbD0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjEpIi8+PC9zdmc+')]"></div>
+            <div class="relative z-10">
+                <h1 class="text-3xl md:text-5xl font-black mb-5 text-white tracking-tight drop-shadow-md">AI 智能估價，三分鐘掌握舊機價值</h1>
+                <p class="text-blue-100 text-lg max-w-2xl mx-auto mb-8 font-medium">同步全台大數據即時行情，保證無隱藏扣款。</p>
+                <div class="flex flex-wrap justify-center gap-5 text-sm font-bold text-white bg-white/10 w-fit mx-auto px-6 py-3 rounded-full backdrop-blur-sm border border-white/20 shadow-lg">
+                    <span class="flex items-center"><i class="fa-solid fa-bolt text-yellow-300 mr-2 text-lg"></i> 報價最透明</span>
+                    <span class="flex items-center"><i class="fa-solid fa-sack-dollar text-green-300 mr-2 text-lg"></i> 現場現金結清</span>
+                    <span class="flex items-center"><i class="fa-solid fa-shield-halved text-blue-300 mr-2 text-lg"></i> 隱私零外洩</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 幻燈片 2 -->
+        <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 flex flex-col justify-center items-center text-center p-4">
+            <div class="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDEwaDQwdjFIMHptMCAyMGg0MHYxSDB6TTEwIDB2NDBoLTFWMHptMjAgMHY0MGgtMVYweiIgZmlsbD0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjEpIi8+PC9zdmc+')]"></div>
+            <div class="relative z-10">
+                <h1 class="text-3xl md:text-5xl font-black mb-5 text-white tracking-tight drop-shadow-md">舊機換新機，享專屬折抵優惠</h1>
+                <p class="text-emerald-100 text-lg max-w-2xl mx-auto mb-8 font-medium">不僅高價回收！現場加購周邊配件再享專屬折扣，一次升級最划算。</p>
+                <div class="flex flex-wrap justify-center gap-5 text-sm font-bold text-white bg-white/10 w-fit mx-auto px-6 py-3 rounded-full backdrop-blur-sm border border-white/20 shadow-lg">
+                    <span class="flex items-center"><i class="fa-solid fa-mobile-screen text-yellow-300 mr-2 text-lg"></i> 舊機貼換新機</span>
+                    <span class="flex items-center"><i class="fa-solid fa-headphones text-green-300 mr-2 text-lg"></i> 專屬配件優惠</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 幻燈片控制鈕 -->
+        <div class="absolute bottom-6 left-0 right-0 flex justify-center gap-3 z-20">
+            <button class="w-3 h-3 rounded-full bg-white/40 hover:bg-white transition-colors carousel-dot shadow-sm"></button>
+            <button class="w-3 h-3 rounded-full bg-white/40 hover:bg-white transition-colors carousel-dot shadow-sm"></button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- 左側：估價流程表單 -->
+            <div class="w-full lg:w-2/3 space-y-6">
+                
+                <!-- 步驟 1: 選擇裝置 -->
+                <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                    <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                        <div class="bg-blue-100 text-primary w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div>
+                        <h2 class="text-xl font-bold text-dark">選擇裝置型號</h2>
+                    </div>
+
+                    <!-- 品牌選擇 -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-slate-600 mb-3">廠牌</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="brand-container">
+                            <!-- JS 動態生成品牌按鈕 -->
+                        </div>
+                    </div>
+
+                    <!-- 系列/型號選擇 (預設隱藏，選擇品牌後顯示) -->
+                    <div id="model-section" class="mb-6 hidden opacity-0 transition-opacity duration-500">
+                        <label class="block text-sm font-medium text-slate-600 mb-3">型號</label>
+                        <div class="relative">
+                            <select id="model-select" class="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-lg focus:ring-primary focus:border-primary block p-3 transition-colors appearance-none cursor-pointer">
+                                <option value="">請先選擇型號...</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                                <i class="fa-solid fa-chevron-down text-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 顏色選擇 (預設隱藏) -->
+                    <div id="color-section" class="mb-6 hidden opacity-0 transition-opacity duration-500 relative">
+                        <label class="block text-sm font-medium text-slate-600 mb-3">機身顏色</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="color-container">
+                            <!-- JS 動態生成顏色按鈕 -->
+                        </div>
+                    </div>
+
+                    <!-- 容量選擇 (預設隱藏) -->
+                    <div id="capacity-section" class="hidden opacity-0 transition-opacity duration-500 relative">
+                        <label class="block text-sm font-medium text-slate-600 mb-3">容量規格</label>
+                        <div class="grid grid-cols-3 gap-3" id="capacity-container">
+                            <!-- JS 動態生成容量按鈕 -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 步驟 2: 機況評估 -->
+                <section id="condition-section" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 hidden opacity-0 transition-opacity duration-500">
+                    <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                        <div class="bg-blue-100 text-primary w-8 h-8 rounded-full flex items-center justify-center font-bold">2</div>
+                        <h2 class="text-xl font-bold text-dark">機況與功能評估</h2>
+                        <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded">據實填寫，估價更準確</span>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="font-medium text-slate-700 mb-3 flex items-center"><i class="fa-solid fa-mobile-screen mr-2 text-slate-400"></i>螢幕狀況</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <input type="radio" name="screen" id="screen-perfect" value="1" class="hidden-radio" checked>
+                                <label for="screen-perfect" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">完美無瑕</div>
+                                    <div class="text-xs text-slate-500">無任何刮傷、亮點、老化或破裂</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="screen" id="screen-scratch" value="0.9" class="hidden-radio">
+                                <label for="screen-scratch" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">輕微刮傷/老化</div>
+                                    <div class="text-xs text-slate-500">有肉眼可見之細微刮痕或輕微烙印</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="screen" id="screen-broken" value="0.5" class="hidden-radio">
+                                <label for="screen-broken" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">螢幕破裂/故障</div>
+                                    <div class="text-xs text-slate-500">玻璃破裂、漏液、線條或觸控不良</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="font-medium text-slate-700 mb-3 flex items-center"><i class="fa-solid fa-mobile-button mr-2 text-slate-400"></i>機身外觀</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <input type="radio" name="body" id="body-perfect" value="1" class="hidden-radio" checked>
+                                <label for="body-perfect" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">外觀如新</div>
+                                    <div class="text-xs text-slate-500">機身無任何掉漆、撞傷或凹痕</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="body" id="body-scratch" value="0.95" class="hidden-radio">
+                                <label for="body-scratch" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">正常使用痕跡</div>
+                                    <div class="text-xs text-slate-500">邊框或背蓋有輕微掉漆或小刮痕</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="body" id="body-dented" value="0.8" class="hidden-radio">
+                                <label for="body-dented" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">明顯撞傷/變形</div>
+                                    <div class="text-xs text-slate-500">有明顯凹陷、玻璃背蓋破裂、機身彎曲</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-medium text-slate-700 mb-3 flex items-center"><i class="fa-solid fa-microchip mr-2 text-slate-400"></i>硬體功能</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <input type="radio" name="function" id="func-perfect" value="1" class="hidden-radio" checked>
+                                <label for="func-perfect" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">功能全正常</div>
+                                    <div class="text-xs text-slate-500">FaceID/指紋、相機、通話、WIFI皆正常</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="function" id="func-broken" value="0.6" class="hidden-radio">
+                                <label for="func-broken" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">部分功能故障</div>
+                                    <div class="text-xs text-slate-500">生物辨識失效、相機抖動、無法充電等</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 電池健康度評估 -->
+                    <div class="mt-8">
+                        <h3 class="font-medium text-slate-700 mb-3 flex items-center"><i class="fa-solid fa-battery-half mr-2 text-slate-400"></i>電池健康度</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div>
+                                <input type="radio" name="battery" id="bat-excellent" value="excellent" class="hidden-radio">
+                                <label for="bat-excellent" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">90% ~ 100%</div>
+                                    <div class="text-xs text-green-600 font-bold mb-1">加碼回饋</div>
+                                    <div class="text-[10px] text-slate-500">電池極佳，可獲額外加價</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="battery" id="bat-good" value="good" class="hidden-radio" checked>
+                                <label for="bat-good" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">85% ~ 89%</div>
+                                    <div class="text-xs text-slate-500 mt-2">電池健康度正常，續航力良好</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="battery" id="bat-normal" value="normal" class="hidden-radio">
+                                <label for="bat-normal" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">80% ~ 84%</div>
+                                    <div class="text-xs text-slate-500 mt-2">正常耗損，顯示重要電池訊息</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="battery" id="bat-bad" value="bad" class="hidden-radio">
+                                <label for="bat-bad" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">低於 80%</div>
+                                    <div class="text-xs text-slate-500 mt-2">建議維修，或曾更換副廠電池</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 原廠保固狀態評估 -->
+                    <div class="mt-8">
+                        <h3 class="font-medium text-slate-700 mb-3 flex items-center"><i class="fa-solid fa-shield-check mr-2 text-slate-400"></i>原廠保固狀態</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <input type="radio" name="warranty" id="war-long" value="long" class="hidden-radio">
+                                <label for="war-long" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">剩餘半年以上</div>
+                                    <div class="text-xs text-green-600 font-bold mb-1">加碼回饋</div>
+                                    <div class="text-[10px] text-slate-500">尚在保固期內，可獲額外加價</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="warranty" id="war-short" value="short" class="hidden-radio">
+                                <label for="war-short" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">剩餘三個月內</div>
+                                    <div class="text-xs text-green-600 font-bold mb-1">加碼回饋</div>
+                                    <div class="text-[10px] text-slate-500">短效期保固，可獲額外加價</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="warranty" id="war-none" value="none" class="hidden-radio" checked>
+                                <label for="war-none" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">已經過保</div>
+                                    <div class="text-xs text-slate-500 mt-2">已超過原廠保固期限</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <h3 class="font-medium text-slate-700 mb-3 flex items-center"><i class="fa-solid fa-box-open mr-2 text-slate-400"></i>原廠配件</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <input type="radio" name="box" id="box-yes" value="1" class="hidden-radio" checked>
+                                <label for="box-yes" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">盒裝完整</div>
+                                    <div class="text-xs text-slate-500">附有原本的手機外盒</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="box" id="box-no" value="0.95" class="hidden-radio">
+                                <label for="box-no" class="block bg-white border-2 border-slate-200 rounded-xl p-4 cursor-pointer transition-all hover:border-slate-300 relative h-full">
+                                    <div class="font-bold text-slate-800 mb-1">無原廠盒裝</div>
+                                    <div class="text-xs text-slate-500">僅有單機，無外盒</div>
+                                    <i class="fa-solid fa-circle-check absolute top-4 right-4 text-primary opacity-0 transform scale-50 transition-all check-icon"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="w-full lg:w-1/3">
+                <div class="bg-white rounded-2xl shadow-xl border border-slate-200 sticky top-24 overflow-hidden">
+                    <!-- 卡片頂部裝飾 -->
+                    <div class="h-2 bg-gradient-to-r from-primary to-blue-600"></div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-dark mb-4 border-b border-slate-100 pb-2">估價明細</h3>
+                        
+                        <!-- 尚未選擇提示 -->
+                        <div id="empty-state" class="text-center py-10">
+                            <i class="fa-solid fa-mobile-retro text-4xl text-slate-200 mb-3"></i>
+                            <p class="text-slate-500 text-sm">請於左側選擇您的手機型號與機況，系統將即時計算收購價格。</p>
+                        </div>
+
+                        <!-- 估價結果區塊 (預設隱藏) -->
+                        <div id="result-state" class="hidden">
+                            <div class="flex items-start justify-between mb-2">
+                                <div>
+                                    <div id="result-brand" class="text-xs text-slate-500 font-medium mb-1">APPLE</div>
+                                    <div id="result-model" class="text-base font-bold text-dark">iPhone 15 Pro Max</div>
+                                </div>
+                                <div class="flex flex-col items-end gap-1">
+                                    <div id="result-capacity" class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-xs font-bold">256GB</div>
+                                    <div class="bg-red-50 text-red-500 border border-red-100 px-2 py-1 rounded text-[10px] font-bold">僅限台灣版</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                <div class="text-sm text-slate-500 mb-1 text-center">最高預估收購價</div>
+                                <div class="text-4xl font-black text-center text-primary tracking-tight mb-2" id="final-price">NT$ 0</div>
+                                <div class="text-[10px] text-slate-400 text-center mb-4" id="update-date-display">報價更新日期：-</div>
+                                
+                                <!-- 蘋果官網對比區塊 -->
+                                <div id="apple-compare-box" class="mb-4 bg-green-50 border border-green-200 rounded-lg p-3 text-center hidden">
+                                    <div class="text-xs text-green-700 mb-1"><i class="fa-brands fa-apple"></i> 蘋果官網最高僅收購 <span id="apple-price-display" class="font-bold line-through">NT$ 0</span></div>
+                                    <div class="text-sm font-bold text-green-600">來星果科技，您最高可多拿 <span id="extra-earn-display" class="text-lg">NT$ 0</span>！</div>
+                                </div>
+
+                                <!-- 舊換新折扣橫幅 -->
+                                <div class="mb-4 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-lg p-3 text-center">
+                                    <div class="text-sm font-bold text-orange-600 flex items-center justify-center gap-2">
+                                        <i class="fa-solid fa-gift"></i> 舊機貼換新機，享最高 NT$ 1,500 額外折扣
+                                    </div>
+                                    <div class="text-[10px] text-orange-500 mt-1">詳情請洽線上客服或門市人員</div>
+                                </div>
+                                
+                                <div class="mt-4 pt-4 border-t border-slate-200/60 space-y-2 text-sm" id="deduction-details">
+                                    <!-- 扣款明細動態生成 -->
+                                    <div class="flex justify-between text-slate-500">
+                                        <span>初步鑑價</span>
+                                        <span id="base-price-display">NT$ 0</span>
+                                    </div>
+                                    
+                                    <!-- 加碼明細 -->
+                                    <div class="flex justify-between text-green-600 hidden font-bold" id="battery-bonus-row">
+                                        <span>電池健康度極佳 (加碼)</span>
+                                        <span id="battery-bonus">+ NT$ 0</span>
+                                    </div>
+                                    <div class="flex justify-between text-green-600 hidden font-bold" id="warranty-bonus-row">
+                                        <span>尚有原廠保固 (加碼)</span>
+                                        <span id="warranty-bonus">+ NT$ 0</span>
+                                    </div>
+
+                                    <div class="flex justify-between text-slate-500 hidden" id="screen-deduction-row">
+                                        <span>螢幕折損</span>
+                                        <span class="text-red-500" id="screen-deduction">- NT$ 0</span>
+                                    </div>
+                                    <div class="flex justify-between text-slate-500 hidden" id="body-deduction-row">
+                                        <span>外觀折損</span>
+                                        <span class="text-red-500" id="body-deduction">- NT$ 0</span>
+                                    </div>
+                                    <div class="flex justify-between text-slate-500 hidden" id="func-deduction-row">
+                                        <span>功能異常</span>
+                                        <span class="text-red-500" id="func-deduction">- NT$ 0</span>
+                                    </div>
+                                    <div class="flex justify-between text-slate-500 hidden" id="battery-deduction-row">
+                                        <span>電池耗損</span>
+                                        <span class="text-red-500" id="battery-deduction">- NT$ 0</span>
+                                    </div>
+                                    <div class="flex justify-between text-slate-500 hidden" id="box-deduction-row">
+                                        <span>無原廠盒裝</span>
+                                        <span class="text-red-500" id="box-deduction">- NT$ 0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 專業免責聲明 -->
+                            <div class="text-xs text-slate-500 mt-4 bg-blue-50 p-3 rounded-lg border border-blue-100 leading-relaxed">
+                                <p class="font-bold text-primary mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>重要注意事項</p>
+                                <ul class="list-disc pl-4 space-y-1">
+                                    <li>本系統報價 <span class="font-bold text-red-500">暫時僅限收購台灣原廠公司貨（台版）</span>，不收購國外版本/水貨。</li>
+                                    <li>此為線上初步估價。部分潛在瑕疵（如：<span class="font-bold text-slate-700">鏡頭內部入塵斑點、主機板微受潮、曾更換非原廠零件等</span>）為一般日常使用難以察覺之狀況。</li>
+                                    <li>為保障雙方權益，實際收購金額需由工程師進行專業實機檢測後方能確認。若檢測有異，我們將詳細為您解說，絕不強迫回收。</li>
+                                </ul>
+                            </div>
+
+                            <div class="mt-6 space-y-3">
+                                <!-- 綁定 LINE 客服連結 -->
+                                <a href="http://lin.ee/9ikyFKx" target="_blank" class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-0.5 flex justify-center items-center gap-2">
+                                    <i class="fa-solid fa-user-tie"></i> 聯絡人員進行鑑價
+                                </a>
+                            </div>
+                            <p class="text-[10px] text-slate-400 text-center mt-4">
+                                * 實際收購金額需以工程師現場實機檢測為準。報價有效期限為3天。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 價格管理後台 Modal -->
+    <div id="price-manager-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
+            <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-primary"></i>
+                    <h3 class="font-bold text-lg text-slate-800">隨時調整手機回收價格 (市場即時變動)</h3>
+                </div>
+                <button onclick="closePriceManager()" class="text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full flex items-center justify-center bg-white shadow-sm">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 flex-1">
+                <p class="text-xs text-slate-600 bg-blue-50 text-blue-700 p-3 rounded-lg border border-blue-100">
+                    💡 說明：在此直接修改各型號的基準價格，修改後點擊「儲存變更」，網頁估價結果將會立即連動更新！資料會安全儲存於您的瀏覽器中。
+                </p>
+                <div id="price-editor-list" class="space-y-3">
+                    <!-- JS 動態生成可編輯的價格列表 -->
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-between items-center">
+                <button onclick="resetDefaultPrices()" class="text-xs text-red-500 hover:text-red-700 font-medium">
+                    <i class="fa-solid fa-rotate-left mr-1"></i> 還原預設價格
+                </button>
+                <div class="flex gap-2">
+                    <button onclick="closePriceManager()" class="px-4 py-2 bg-slate-200 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-300 transition-colors">取消</button>
+                    <button onclick="savePrices()" class="px-5 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-sky-600 transition-colors shadow-sm">儲存變更</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t border-slate-200 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="text-slate-500 text-sm">
+                &copy; 2026 星果科技回收估價系統. All rights reserved.
+            </div>
+            <div class="flex gap-4 text-sm text-slate-500">
+                <a href="#" onclick="openModal('terms-modal')" class="hover:text-primary">服務條款</a>
+                <a href="#" onclick="openModal('privacy-modal')" class="hover:text-primary">隱私權政策</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 彈出視窗：回收流程 -->
+    <div id="process-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('process-modal')"></div>
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div class="relative bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-2xl w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="flex justify-between items-center mb-5 border-b pb-3">
+                        <h3 class="text-xl leading-6 font-bold text-slate-900" id="modal-title">星果科技 - 舊機回收流程</h3>
+                        <button onclick="closeModal('process-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+                    </div>
+                    <div class="mt-2 space-y-6">
+                        <div class="flex gap-4 items-start">
+                            <div class="flex-shrink-0 bg-blue-100 text-primary w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">1</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-800">線上初步估價</h4>
+                                <p class="text-slate-500 text-sm mt-1">透過本網站，選擇您的手機型號、容量並據實填寫機況，系統將即時試算初步鑑價金額。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start">
+                            <div class="flex-shrink-0 bg-blue-100 text-primary w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">2</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-800">聯絡客服人員</h4>
+                                <p class="text-slate-500 text-sm mt-1">滿意初步報價後，點擊「聯絡人員進行鑑價」加入官方 LINE 客服，專人將與您確認細節並預約時間。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start">
+                            <div class="flex-shrink-0 bg-blue-100 text-primary w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">3</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-800">工程師實機檢測</h4>
+                                <p class="text-slate-500 text-sm mt-1">雙方會合後，由專業工程師進行實機檢測。若機況與線上描述相符，將絕不亂砍價。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start">
+                            <div class="flex-shrink-0 bg-blue-100 text-primary w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">4</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-800">現場現金結清</h4>
+                                <p class="text-slate-500 text-sm mt-1">確認最終回收金額後，當下填寫讓渡書，並立即以現金結清，安全又快速。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" onclick="closeModal('process-modal')" class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-blue-600 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">了解</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 彈出視窗：服務條款 -->
+    <div id="terms-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('terms-modal')"></div>
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div class="relative bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-3xl w-full h-[80vh] flex flex-col">
+                <div class="px-4 py-5 border-b sm:px-6 flex justify-between items-center bg-slate-50">
+                    <h3 class="text-lg leading-6 font-bold text-slate-900">服務條款 (Terms of Service)</h3>
+                    <button onclick="closeModal('terms-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+                <div class="p-6 overflow-y-auto flex-1 text-sm text-slate-600 space-y-4">
+                    <p class="font-bold">第一條、認知與接受條款</p>
+                    <p>歡迎您使用「星果科技回收估價系統」（以下簡稱本系統）。本系統係依據本服務條款提供二手3C產品之估價及收購服務。當您使用本系統時，即表示您已閱讀、瞭解並同意接受本服務條款之所有內容。若您未滿二十歲，應於您的家長（或監護人）閱讀、瞭解並同意本約定書之所有內容及其後修改變更後，方得使用或繼續使用本服務。</p>
+                    
+                    <p class="font-bold">第二條、估價與報價說明</p>
+                    <p>1. 本系統提供之「初步鑑價」金額，係依據您於網頁上所選擇之機型、規格及自行勾選之機況所計算得出之預估價格。此價格並非最終收購價格。<br>
+                    2. 實際收購價格需待本公司工程師實機檢測，依據行政院消費者保護處相關規範，確認實際機況（包含但不限於外觀瑕疵、內部零件是否原廠、受潮、功能異常等）後，方能給予最終準確報價。<br>
+                    3. 若實機檢測結果與您線上填寫之機況完全相符，且無其他隱藏瑕疵，本公司原則上將依「初步鑑價」金額進行收購。</p>
+                    
+                    <p class="font-bold">第三條、收購規範與來源合法性</p>
+                    <p>1. 依據《個人資料保護法》及相關法令，辦理收購手續時，您需年滿20歲，並須出示有效之身分證明文件正本（身分證）供核對登記，並需填寫「商品讓渡書」。<br>
+                    2. 您必須保證所出售之商品來源合法，絕非偷竊、侵占、詐欺或違反任何法令所取得之贓物。<br>
+                    3. 若事後查證該商品為贓物或來源不明，本公司將主動配合檢警機關調查，並提供讓渡書及相關資料。您需承擔所有法律責任，並賠償本公司因此所受之一切損失（包含但不限於收購金額、商譽損失、訴訟費用等）。</p>
+                    
+                    <p class="font-bold">第四條、資料抹除與隱私</p>
+                    <p>在交付裝置前，您有責任自行備份並清除裝置內所有個人資料。本公司在完成收購後，將進行標準重置程序，但對於您未自行刪除之資料所造成之外洩或遺失，本公司概不負責。</p>
+                </div>
+                <div class="bg-slate-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t">
+                    <button type="button" onclick="closeModal('terms-modal')" class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-blue-600 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">同意並關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 彈出視窗：隱私權政策 -->
+    <div id="privacy-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('privacy-modal')"></div>
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div class="relative bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-3xl w-full h-[80vh] flex flex-col">
+                <div class="px-4 py-5 border-b sm:px-6 flex justify-between items-center bg-slate-50">
+                    <h3 class="text-lg leading-6 font-bold text-slate-900">隱私權政策 (Privacy Policy)</h3>
+                    <button onclick="closeModal('privacy-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+                <div class="p-6 overflow-y-auto flex-1 text-sm text-slate-600 space-y-4">
+                    <p>星果科技（以下簡稱「我們」）非常重視您的隱私權。本隱私權政策旨在說明我們如何蒐集、處理、利用與保護您的個人資料，一切均依照中華民國《個人資料保護法》之規定辦理。</p>
+
+                    <p class="font-bold">一、個人資料的蒐集目的與類別</p>
+                    <p>1. 蒐集目的：我們蒐集您的個人資料，主要用於完成二手3C產品之收購交易、提供客戶服務、身分查核、防制洗錢與打擊資恐相關規範之遵循，以及未來之行銷資訊發送。<br>
+                    2. 蒐集類別：在您使用線上估價時，我們不會強制要求提供個資。但在您實際進行交易簽署「讓渡書」時，我們將依法蒐集您的：姓名、身分證字號、聯絡電話、戶籍/通訊地址等辨識個人者之資料。</p>
+
+                    <p class="font-bold">二、個人資料的利用期間、地區、對象及方式</p>
+                    <p>1. 期間：您的個人資料將於蒐集目的之存續期間，或依法令規定（如商業會計法）要求之保存期限內保留。<br>
+                    2. 地區：您的個人資料將主要於台灣地區內利用。<br>
+                    3. 對象與方式：我們將以電子或紙本形式，於上述目的範圍內，由本公司內部人員進行處理與利用。我們不會將您的個資販售或提供給第三方，除非基於司法檢調機關之合法要求（如追查贓物）。</p>
+
+                    <p class="font-bold">三、當事人之權利行使</p>
+                    <p>依據《個人資料保護法》第3條，您可向我們行使以下權利：<br>
+                    (1) 查詢或請求閱覽。<br>
+                    (2) 請求製給複製本。<br>
+                    (3) 請求補充或更正。<br>
+                    (4) 請求停止蒐集、處理或利用。<br>
+                    (5) 請求刪除。<br>
+                    若您需行使上述權利，可透過我們的官方LINE客服提出申請。</p>
+
+                    <p class="font-bold">四、設備內個人資料之清除聲明</p>
+                    <p>我們在此強烈建議並提醒您，於交付回收裝置前，務必自行備份並「完全重置（恢復原廠設定）」您的裝置，清除所有照片、帳號、密碼及應用程式資料。雖本公司於收購後會執行標準的資料抹除作業，但對於您交付前未清除之資料外洩風險，本公司不負相關賠償責任。</p>
+                </div>
+                <div class="bg-slate-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t">
+                    <button type="button" onclick="closeModal('privacy-modal')" class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-blue-600 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">了解並關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 彈出視窗：常見問題 FAQ -->
+    <div id="faq-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('faq-modal')"></div>
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div class="relative bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-3xl w-full h-[80vh] flex flex-col">
+                <div class="px-4 py-5 border-b sm:px-6 flex justify-between items-center bg-slate-50">
+                    <h3 class="text-lg leading-6 font-bold text-slate-900">常見問題 (FAQ)</h3>
+                    <button onclick="closeModal('faq-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+                <div class="p-6 overflow-y-auto flex-1 text-sm text-slate-600 space-y-6">
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                        <h4 class="font-bold text-slate-800 mb-2 flex items-center text-base"><i class="fa-solid fa-circle-question text-primary mr-2"></i>現場收購流程需要帶什麼文件？</h4>
+                        <p class="pl-7 leading-relaxed">依據台灣政府法規，為防範銷贓，辦理二手機收購時<span class="font-bold text-red-500">必須年滿 20 歲</span>，並攜帶您的<span class="font-bold text-slate-700">「身分證正本」</span>供我們核對身分與登記，同時需於現場填寫「商品讓渡書」。未滿 20 歲需由法定代理人陪同辦理。</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                        <h4 class="font-bold text-slate-800 mb-2 flex items-center text-base"><i class="fa-solid fa-circle-question text-primary mr-2"></i>手機裡面的資料個資會不會外洩？</h4>
+                        <p class="pl-7 leading-relaxed">我們非常注重客戶隱私！建議您在交機前先自行備份，並登出 Apple ID 且「清除所有內容與設定」。即使您忘記，我們的工程師在檢測完成且交易確認後，<span class="font-bold text-slate-700">售出前會再次執行標準化的資料重置與抹除流程</span>，確保個資絕不外流。</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                        <h4 class="font-bold text-slate-800 mb-2 flex items-center text-base"><i class="fa-solid fa-circle-question text-primary mr-2"></i>網頁上的報價是最終價格嗎？</h4>
+                        <p class="pl-7 leading-relaxed">網頁系統為「線上初步鑑價」。若實機檢測後，機況與您線上填寫的一致（無肉眼難見的隱形瑕疵如：受潮、螢幕老化、曾維修非原廠零件等），就會依照該價格收購。若有落差，工程師會向您詳細說明原因並重新報價，<span class="font-bold text-slate-700">您絕對有權利決定是否交易，我們絕不強迫收購。</span></p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                        <h4 class="font-bold text-slate-800 mb-2 flex items-center text-base"><i class="fa-solid fa-circle-question text-primary mr-2"></i>有提供舊機貼換新機的服務嗎？</h4>
+                        <p class="pl-7 leading-relaxed">有的！我們非常歡迎您持舊機來店貼換新機。除了享有原先的高價回收金外，現場舊換新、或加購保護貼、防摔殼等周邊配件，皆<span class="font-bold text-slate-700">享有專屬優惠折扣</span>，幫您一次升級最划算！</p>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t">
+                    <button type="button" onclick="closeModal('faq-modal')" class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-blue-600 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 懸浮 LINE 客服按鈕 -->
+    <a href="http://lin.ee/9ikyFKx" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#06C755] hover:bg-[#05b34c] text-white rounded-full p-4 shadow-xl shadow-green-500/30 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center group" title="聯絡 LINE 客服">
+        <i class="fa-brands fa-line text-3xl"></i>
+        <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out ml-0 group-hover:ml-2 font-bold text-sm">LINE 線上客服</span>
+    </a>
+
+    <script>
+        // 設定管理者密碼（您可以自行修改引號內的字串作為您的專屬密鑰）
+        const ADMIN_PASSWORD = "kevin207931";
+
+        const colorSets = {
+            pro17: ['橘色', '銀色', '藍色'],
+            base17: ['薰衣草紫色', '霧藍色', '白色', '鼠尾草綠色', '黑色'],
+            pro16: ['沙漠色鈦金屬', '原色鈦金屬', '白色鈦金屬', '黑色鈦金屬'],
+            base16: ['湛海藍色', '湖水綠色', '粉紅色', '白色', '黑色'],
+            pro15: ['原色鈦金屬', '藍色鈦金屬', '白色鈦金屬', '黑色鈦金屬'],
+            base15: ['粉紅色', '黃色', '綠色', '藍色', '黑色'],
+            pro14: ['深紫色', '金色', '銀色', '太空黑色'],
+            base14: ['藍色', '紫色', '黃色', '午夜色', '星光色', '紅色'],
+            pro13: ['松嶺青色', '天峰藍色', '金色', '銀色', '石墨色'],
+            base13: ['綠色', '粉紅色', '藍色', '午夜色', '星光色', '紅色'],
+            pro12: ['太平洋藍色', '金色', '銀色', '石墨色'],
+            base12: ['紫色', '藍色', '綠色', '紅色', '白色', '黑色'],
+            pro11: ['夜幕綠色', '銀色', '太空灰色', '金色'],
+            base11: ['紫色', '黃色', '綠色', '黑色', '白色', '紅色']
+        };
+
+        const defaultDatabase = {
+            brands: [
+                { id: 'apple', name: 'Apple', icon: 'fa-apple' }
+            ],
+            models: {
+                'apple': [
+                    { id: 'ip17pm', name: 'iPhone 17 Pro Max', colors: colorSets.pro17, capacities: [{ cap: '256GB', price: 30000 }, { cap: '512GB', price: 33000 }, { cap: '1TB', price: 37000 }, { cap: '2TB', price: 41000 }] },
+                    { id: 'ip17p', name: 'iPhone 17 Pro', colors: colorSets.pro17, capacities: [{ cap: '256GB', price: 27000 }, { cap: '512GB', price: 31000 }, { cap: '1TB', price: 33000 }] },
+                    { id: 'ip17', name: 'iPhone 17', colors: colorSets.base17, capacities: [{ cap: '256GB', price: 20000 }, { cap: '512GB', price: 23000 }] },
+                    { id: 'ip16pm', name: 'iPhone 16 Pro Max', colors: colorSets.pro16, capacities: [{ cap: '256GB', price: 23000 }, { cap: '512GB', price: 25000 }, { cap: '1TB', price: 27000 }] },
+                    { id: 'ip16p', name: 'iPhone 16 Pro', colors: colorSets.pro16, capacities: [{ cap: '128GB', price: 17000 }, { cap: '256GB', price: 19000 }, { cap: '512GB', price: 21000 }, { cap: '1TB', price: 23000 }] },
+                    { id: 'ip16pl', name: 'iPhone 16 Plus', colors: colorSets.base16, capacities: [{ cap: '128GB', price: 15000 }, { cap: '256GB', price: 17000 }, { cap: '512GB', price: 18000 }] },
+                    { id: 'ip16', name: 'iPhone 16', colors: colorSets.base16, capacities: [{ cap: '128GB', price: 13500 }, { cap: '256GB', price: 15000 }, { cap: '512GB', price: 16500 }] },
+                    { id: 'ip15pm', name: 'iPhone 15 Pro Max', colors: colorSets.pro15, capacities: [{ cap: '256GB', price: 17000 }, { cap: '512GB', price: 18000 }, { cap: '1TB', price: 20000 }] },
+                    { id: 'ip15p', name: 'iPhone 15 Pro', colors: colorSets.pro15, capacities: [{ cap: '128GB', price: 13000 }, { cap: '256GB', price: 15000 }, { cap: '512GB', price: 16000 }, { cap: '1TB', price: 17000 }] },
+                    { id: 'ip15pl', name: 'iPhone 15 Plus', colors: colorSets.base15, capacities: [{ cap: '128GB', price: 12000 }, { cap: '256GB', price: 13000 }, { cap: '512GB', price: 14000 }] },
+                    { id: 'ip15', name: 'iPhone 15', colors: colorSets.base15, capacities: [{ cap: '128GB', price: 11000 }, { cap: '256GB', price: 12000 }, { cap: '512GB', price: 13000 }] },
+                    { id: 'ip14pm', name: 'iPhone 14 Pro Max', colors: colorSets.pro14, capacities: [{ cap: '128GB', price: 10000 }, { cap: '256GB', price: 12000 }, { cap: '512GB', price: 12000 }, { cap: '1TB', price: 13000 }] },
+                    { id: 'ip14p', name: 'iPhone 14 Pro', colors: colorSets.pro14, capacities: [{ cap: '128GB', price: 8000 }, { cap: '256GB', price: 11000 }, { cap: '512GB', price: 10000 }, { cap: '1TB', price: 10500 }] },
+                    { id: 'ip14pl', name: 'iPhone 14 Plus', colors: colorSets.base14, capacities: [{ cap: '128GB', price: 7000 }, { cap: '256GB', price: 8000 }, { cap: '512GB', price: 9000 }] },
+                    { id: 'ip14', name: 'iPhone 14', colors: colorSets.base14, capacities: [{ cap: '128GB', price: 6000 }, { cap: '256GB', price: 7000 }, { cap: '512GB', price: 8000 }] },
+                    { id: 'ip13pm', name: 'iPhone 13 Pro Max', colors: colorSets.pro13, capacities: [{ cap: '128GB', price: 8500 }, { cap: '256GB', price: 9500 }, { cap: '512GB', price: 10500 }, { cap: '1TB', price: 11000 }] },
+                    { id: 'ip13p', name: 'iPhone 13 Pro', colors: colorSets.pro13, capacities: [{ cap: '128GB', price: 7000 }, { cap: '256GB', price: 8000 }, { cap: '512GB', price: 9000 }, { cap: '1TB', price: 9500 }] },
+                    { id: 'ip13', name: 'iPhone 13', colors: colorSets.base13, capacities: [{ cap: '128GB', price: 5000 }, { cap: '256GB', price: 6000 }, { cap: '512GB', price: 6500 }] },
+                    { id: 'ip13m', name: 'iPhone 13 mini', colors: colorSets.base13, capacities: [{ cap: '128GB', price: 4000 }, { cap: '256GB', price: 4500 }, { cap: '512GB', price: 5000 }] },
+                    { id: 'ip12pm', name: 'iPhone 12 Pro Max', colors: colorSets.pro12, capacities: [{ cap: '128GB', price: 6000 }, { cap: '256GB', price: 6500 }, { cap: '512GB', price: 7000 }] },
+                    { id: 'ip12p', name: 'iPhone 12 Pro', colors: colorSets.pro12, capacities: [{ cap: '128GB', price: 4500 }, { cap: '256GB', price: 5000 }, { cap: '512GB', price: 5500 }] },
+                    { id: 'ip12', name: 'iPhone 12', colors: colorSets.base12, capacities: [{ cap: '64GB', price: 3500 }, { cap: '128GB', price: 4000 }, { cap: '256GB', price: 4500 }] },
+                    { id: 'ip12m', name: 'iPhone 12 mini', colors: colorSets.base12, capacities: [{ cap: '64GB', price: 3000 }, { cap: '128GB', price: 3200 }, { cap: '256GB', price: 3500 }] },
+                    { id: 'ip11pm', name: 'iPhone 11 Pro Max', colors: colorSets.pro11, capacities: [{ cap: '64GB', price: 3000 }, { cap: '256GB', price: 3200 }, { cap: '512GB', price: 3500 }] },
+                    { id: 'ip11p', name: 'iPhone 11 Pro', colors: colorSets.pro11, capacities: [{ cap: '64GB', price: 2500 }, { cap: '256GB', price: 2700 }, { cap: '512GB', price: 3000 }] },
+                    { id: 'ip11', name: 'iPhone 11', colors: colorSets.base11, capacities: [{ cap: '64GB', price: 2000 }, { cap: '128GB', price: 2200 }, { cap: '256GB', price: 2500 }] }
+                ]
+            }
+        };
+
+        let database = JSON.parse(localStorage.getItem('star_fruit_database')) || defaultDatabase;
+
+        let currentState = {
+            brand: null,
+            model: null,
+            color: null,
+            capacity: null,
+            basePrice: 0,
+            screenRatio: 1,
+            bodyRatio: 1,
+            funcRatio: 1,
+            batteryStatus: 'good',
+            warrantyStatus: 'none',
+            boxRatio: 1
+        };
+
+        const brandContainer = document.getElementById('brand-container');
+        const modelSection = document.getElementById('model-section');
+        const modelSelect = document.getElementById('model-select');
+        const capacitySection = document.getElementById('capacity-section');
+        const capacityContainer = document.getElementById('capacity-container');
+        const conditionSection = document.getElementById('condition-section');
+        
+        const emptyState = document.getElementById('empty-state');
+        const resultState = document.getElementById('result-state');
+        const resultBrand = document.getElementById('result-brand');
+        const resultModel = document.getElementById('result-model');
+        const resultCapacity = document.getElementById('result-capacity');
+        const finalPriceEl = document.getElementById('final-price');
+        
+        const basePriceDisplay = document.getElementById('base-price-display');
+        const screenDeductionRow = document.getElementById('screen-deduction-row');
+        const screenDeduction = document.getElementById('screen-deduction');
+        const bodyDeductionRow = document.getElementById('body-deduction-row');
+        const bodyDeduction = document.getElementById('body-deduction');
+        const funcDeductionRow = document.getElementById('func-deduction-row');
+        const funcDeduction = document.getElementById('func-deduction');
+        const batteryDeductionRow = document.getElementById('battery-deduction-row');
+        const batteryDeduction = document.getElementById('battery-deduction');
+        const boxDeductionRow = document.getElementById('box-deduction-row');
+        const boxDeduction = document.getElementById('box-deduction');
+
+        const batteryBonusRow = document.getElementById('battery-bonus-row');
+        const batteryBonus = document.getElementById('battery-bonus');
+        const warrantyBonusRow = document.getElementById('warranty-bonus-row');
+        const warrantyBonus = document.getElementById('warranty-bonus');
+
+        const appleCompareBox = document.getElementById('apple-compare-box');
+        const applePriceDisplay = document.getElementById('apple-price-display');
+        const extraEarnDisplay = document.getElementById('extra-earn-display');
+        
+        function init() {
+            renderBrands();
+            bindConditionEvents();
+            initCarousel();
+            
+            const today = new Date();
+            document.getElementById('update-date-display').textContent = '報價更新日期：' + today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日';
+            
+            const appleBtn = brandContainer.querySelector('button');
+            if (appleBtn) {
+                appleBtn.click();
+            }
+        }
+
+        function renderBrands() {
+            brandContainer.innerHTML = '';
+            database.brands.forEach(brand => {
+                const btn = document.createElement('button');
+                btn.className = 'flex flex-col items-center justify-center p-4 border-2 border-slate-200 rounded-xl hover:border-primary hover:bg-blue-50 transition-colors group focus:outline-none';
+                btn.innerHTML = `
+                    <i class="fa-brands ${brand.icon} text-2xl text-slate-400 group-hover:text-primary transition-colors mb-2"></i>
+                    <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">${brand.name}</span>
+                `;
+                btn.onclick = () => selectBrand(brand.id, btn);
+                brandContainer.appendChild(btn);
+            });
+        }
+
+        function selectBrand(brandId, btnElement) {
+            currentState.brand = brandId;
+            currentState.model = null;
+            currentState.capacity = null;
+            
+            Array.from(brandContainer.children).forEach(child => {
+                child.classList.remove('border-primary', 'bg-blue-50');
+                child.querySelector('i').classList.remove('text-primary');
+                child.querySelector('span').classList.remove('text-primary');
+            });
+            btnElement.classList.add('border-primary', 'bg-blue-50');
+            btnElement.querySelector('i').classList.add('text-primary');
+            btnElement.querySelector('span').classList.add('text-primary');
+
+            capacitySection.classList.add('hidden', 'opacity-0');
+            conditionSection.classList.add('hidden', 'opacity-0');
+            hideResult();
+
+            renderModels(brandId);
+            modelSection.classList.remove('hidden');
+            setTimeout(() => modelSection.classList.remove('opacity-0'), 10);
+        }
+
+        function renderModels(brandId) {
+            const models = database.models[brandId] || [];
+            modelSelect.innerHTML = '<option value="">請選擇手機型號...</option>';
+            models.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.id;
+                option.textContent = model.name;
+                modelSelect.appendChild(option);
+            });
+            
+            modelSelect.onchange = (e) => selectModel(e.target.value);
+        }
+
+        function selectModel(modelId) {
+            if (!modelId) {
+                document.getElementById('color-section').classList.add('hidden', 'opacity-0');
+                capacitySection.classList.add('hidden', 'opacity-0');
+                conditionSection.classList.add('hidden', 'opacity-0');
+                hideResult();
+                return;
+            }
+
+            currentState.model = modelId;
+            currentState.color = null;
+            currentState.capacity = null;
+            
+            const models = database.models[currentState.brand];
+            const selectedModelData = models.find(m => m.id === modelId);
+
+            capacitySection.classList.add('hidden', 'opacity-0');
+            conditionSection.classList.add('hidden', 'opacity-0');
+            hideResult();
+
+            renderColors(selectedModelData.colors);
+            document.getElementById('color-section').classList.remove('hidden');
+            setTimeout(() => document.getElementById('color-section').classList.remove('opacity-0'), 10);
+        }
+
+        function renderColors(colors) {
+            const container = document.getElementById('color-container');
+            container.innerHTML = '';
+            colors.forEach(color => {
+                const btn = document.createElement('button');
+                btn.className = 'py-2 px-2 text-sm font-bold border-2 border-slate-200 rounded-xl hover:border-primary hover:text-primary transition-colors focus:outline-none text-slate-600';
+                btn.textContent = color;
+                btn.onclick = () => selectColor(color, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectColor(color, btnElement) {
+            currentState.color = color;
+            currentState.capacity = null;
+
+            const container = document.getElementById('color-container');
+            Array.from(container.children).forEach(child => {
+                child.classList.remove('border-primary', 'bg-blue-50', 'text-primary');
+            });
+            btnElement.classList.add('border-primary', 'bg-blue-50', 'text-primary');
+
+            conditionSection.classList.add('hidden', 'opacity-0');
+            hideResult();
+
+            const models = database.models[currentState.brand];
+            const selectedModelData = models.find(m => m.id === currentState.model);
+            renderCapacities(selectedModelData.capacities);
+            capacitySection.classList.remove('hidden');
+            setTimeout(() => capacitySection.classList.remove('opacity-0'), 10);
+        }
+
+        function renderCapacities(capacities) {
+            capacityContainer.innerHTML = '';
+            capacities.forEach((capData) => {
+                const btn = document.createElement('button');
+                btn.className = 'py-3 px-2 text-sm font-bold border-2 border-slate-200 rounded-xl hover:border-primary hover:text-primary transition-colors focus:outline-none text-slate-600';
+                btn.textContent = capData.cap;
+                btn.onclick = () => selectCapacity(capData, btn);
+                capacityContainer.appendChild(btn);
+            });
+        }
+
+        function selectCapacity(capData, btnElement) {
+            currentState.capacity = capData.cap;
+            currentState.basePrice = capData.price;
+            
+            Array.from(capacityContainer.children).forEach(child => {
+                child.classList.remove('border-primary', 'bg-blue-50', 'text-primary');
+            });
+            btnElement.classList.add('border-primary', 'bg-blue-50', 'text-primary');
+
+            conditionSection.classList.remove('hidden');
+            setTimeout(() => conditionSection.classList.remove('opacity-0'), 10);
+
+            document.getElementById('screen-perfect').checked = true;
+            document.getElementById('body-perfect').checked = true;
+            document.getElementById('func-perfect').checked = true;
+            document.getElementById('bat-good').checked = true;
+            document.getElementById('war-none').checked = true;
+            document.getElementById('box-yes').checked = true;
+            
+            currentState.screenRatio = 1;
+            currentState.bodyRatio = 1;
+            currentState.funcRatio = 1;
+            currentState.batteryStatus = 'good';
+            currentState.warrantyStatus = 'none';
+            currentState.boxRatio = 1;
+
+            updateResult();
+        }
+
+        function bindConditionEvents() {
+            document.querySelectorAll('input[type=radio][name=screen]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    currentState.screenRatio = parseFloat(e.target.value);
+                    updateResult();
+                });
+            });
+            document.querySelectorAll('input[type=radio][name=body]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    currentState.bodyRatio = parseFloat(e.target.value);
+                    updateResult();
+                });
+            });
+            document.querySelectorAll('input[type=radio][name=function]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    currentState.funcRatio = parseFloat(e.target.value);
+                    updateResult();
+                });
+            });
+            document.querySelectorAll('input[type=radio][name=battery]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    currentState.batteryStatus = e.target.value;
+                    updateResult();
+                });
+            });
+            document.querySelectorAll('input[type=radio][name=warranty]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    currentState.warrantyStatus = e.target.value;
+                    updateResult();
+                });
+            });
+            document.querySelectorAll('input[type=radio][name=box]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    currentState.boxRatio = parseFloat(e.target.value);
+                    updateResult();
+                });
+            });
+        }
+
+        function formatPrice(num) {
+            return 'NT$ ' + num.toLocaleString('zh-TW');
+        }
+
+        function hideResult() {
+            emptyState.classList.remove('hidden');
+            resultState.classList.add('hidden');
+        }
+
+        function updateResult() {
+            emptyState.classList.add('hidden');
+            resultState.classList.remove('hidden');
+
+            const brandData = database.brands.find(b => b.id === currentState.brand);
+            const modelData = database.models[currentState.brand].find(m => m.id === currentState.model);
+
+            resultBrand.textContent = brandData.name.toUpperCase();
+            resultModel.textContent = modelData.name + (currentState.color ? ` (${currentState.color})` : '');
+            resultCapacity.textContent = currentState.capacity;
+            
+            const base = currentState.basePrice;
+            basePriceDisplay.textContent = formatPrice(base);
+
+            let screenLoss = Math.round((base * (1 - currentState.screenRatio)) / 100) * 100;
+            let bodyLoss = Math.round((base * (1 - currentState.bodyRatio)) / 100) * 100;
+            let funcLoss = Math.round((base * (1 - currentState.funcRatio)) / 100) * 100;
+            let boxLoss = Math.round((base * (1 - currentState.boxRatio)) / 100) * 100;
+            
+            let batLoss = 0;
+            let batBonus = 0;
+            if (currentState.batteryStatus === 'excellent') {
+                batBonus = base >= 15000 ? 500 : 300;
+            } else if (currentState.batteryStatus === 'normal') {
+                batLoss = Math.max(Math.round((base * 0.05) / 100) * 100, 1000);
+            } else if (currentState.batteryStatus === 'bad') {
+                batLoss = Math.max(Math.round((base * 0.1) / 100) * 100, 1500);
+            }
+
+            let warBonus = 0;
+            if (currentState.warrantyStatus === 'long') {
+                warBonus = base >= 15000 ? 500 : 300;
+            } else if (currentState.warrantyStatus === 'short') {
+                warBonus = 300;
+            }
+
+            if (batBonus > 0) {
+                batteryBonusRow.classList.remove('hidden');
+                batteryBonus.textContent = '+ ' + formatPrice(batBonus);
+            } else {
+                batteryBonusRow.classList.add('hidden');
+            }
+
+            if (warBonus > 0) {
+                warrantyBonusRow.classList.remove('hidden');
+                warrantyBonus.textContent = '+ ' + formatPrice(warBonus);
+            } else {
+                warrantyBonusRow.classList.add('hidden');
+            }
+
+            if (screenLoss > 0) {
+                screenDeductionRow.classList.remove('hidden');
+                screenDeduction.textContent = '- ' + formatPrice(Math.round(screenLoss));
+            } else {
+                screenDeductionRow.classList.add('hidden');
+            }
+
+            if (bodyLoss > 0) {
+                bodyDeductionRow.classList.remove('hidden');
+                bodyDeduction.textContent = '- ' + formatPrice(Math.round(bodyLoss));
+            } else {
+                bodyDeductionRow.classList.add('hidden');
+            }
+
+            if (funcLoss > 0) {
+                funcDeductionRow.classList.remove('hidden');
+                funcDeduction.textContent = '- ' + formatPrice(Math.round(funcLoss));
+            } else {
+                funcDeductionRow.classList.add('hidden');
+            }
+            
+            if (batLoss > 0) {
+                batteryDeductionRow.classList.remove('hidden');
+                batteryDeduction.textContent = '- ' + formatPrice(batLoss);
+            } else {
+                batteryDeductionRow.classList.add('hidden');
+            }
+
+            if (boxLoss > 0) {
+                boxDeductionRow.classList.remove('hidden');
+                boxDeduction.textContent = '- ' + formatPrice(boxLoss);
+            } else {
+                boxDeductionRow.classList.add('hidden');
+            }
+
+            let finalPrice = base + batBonus + warBonus - screenLoss - bodyLoss - funcLoss - batLoss - boxLoss;
+            finalPrice = Math.max(0, finalPrice);
+
+            let appleEstimatedPrice = Math.floor((base * 0.75) / 100) * 100;
+            let difference = finalPrice - appleEstimatedPrice;
+
+            if (difference > 0 && finalPrice > 0) {
+                appleCompareBox.classList.remove('hidden');
+                applePriceDisplay.textContent = formatPrice(appleEstimatedPrice);
+                extraEarnDisplay.textContent = formatPrice(difference);
+            } else {
+                appleCompareBox.classList.add('hidden');
+            }
+
+            finalPriceEl.classList.remove('price-animate');
+            void finalPriceEl.offsetWidth; 
+            finalPriceEl.textContent = formatPrice(finalPrice);
+            finalPriceEl.classList.add('price-animate');
+        }
+
+        // ================= 密碼驗證與價格管理後台 =================
+        function requestPassword() {
+            const password = prompt("請輸入管理者金鑰（密碼）：");
+            if (password === null) return; // 按取消
+
+            if (password === ADMIN_PASSWORD) {
+                openPriceManager();
+            } else {
+                alert("❌ 密碼錯誤，拒絕存取！");
+            }
+        }
+
+        function openPriceManager() {
+            const listContainer = document.getElementById('price-editor-list');
+            listContainer.innerHTML = '';
+
+            database.models['apple'].forEach((model, modelIdx) => {
+                let modelHtml = `<div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="font-bold text-slate-800 mb-3 flex items-center justify-between">
+                        <span>${model.name}</span>
+                        <span class="text-xs text-slate-400 font-normal">型號代碼: ${model.id}</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">`;
+
+                model.capacities.forEach((cap, capIdx) => {
+                    modelHtml += `<div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">${cap.cap}</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-xs text-slate-400">NT$</span>
+                            <input type="number" data-model-idx="${modelIdx}" data-cap-idx="${capIdx}" value="${cap.price}" class="price-input w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-700 focus:bg-white focus:ring-1 focus:ring-primary focus:outline-none">
+                        </div>
+                    </div>`;
+                });
+
+                modelHtml += `</div></div>`;
+                listContainer.innerHTML += modelHtml;
+            });
+
+            openModal('price-manager-modal');
+        }
+
+        function closePriceManager() {
+            closeModal('price-manager-modal');
+        }
+
+        function savePrices() {
+            const inputs = document.querySelectorAll('.price-input');
+            inputs.forEach(input => {
+                const modelIdx = parseInt(input.dataset.modelIdx);
+                const capIdx = parseInt(input.dataset.capIdx);
+                const newVal = parseInt(input.value);
+                if (!isNaN(newVal)) {
+                    database.models['apple'][modelIdx].capacities[capIdx].price = newVal;
+                }
+            });
+
+            localStorage.setItem('star_fruit_database', JSON.stringify(database));
+            
+            closePriceManager();
+            alert('✅ 回收價格已成功更新！畫面估價已同步調整。');
+            
+            if (currentState.model && currentState.capacity) {
+                const selectedModelData = database.models['apple'].find(m => m.id === currentState.model);
+                const selectedCapData = selectedModelData.capacities.find(c => c.cap === currentState.capacity);
+                if (selectedCapData) {
+                    currentState.basePrice = selectedCapData.price;
+                    updateResult();
+                }
+            }
+        }
+
+        function resetDefaultPrices() {
+            if (confirm('確定要將所有價格還原為預設值嗎？')) {
+                localStorage.removeItem('star_fruit_database');
+                database = JSON.parse(JSON.stringify(defaultDatabase));
+                openPriceManager();
+                if (currentState.model && currentState.capacity) {
+                    selectModel(currentState.model);
+                }
+                alert('已還原為預設價格！');
+            }
+        }
+
+        function initCarousel() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.carousel-dot');
+            let currentSlide = 0;
+            let slideInterval;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    if (i === index) {
+                        slide.classList.remove('opacity-0');
+                        slide.classList.add('opacity-100');
+                        slide.style.zIndex = '10';
+                        if(dots[i]) dots[i].classList.add('bg-white');
+                        if(dots[i]) dots[i].classList.remove('bg-white/40');
+                    } else {
+                        slide.classList.add('opacity-0');
+                        slide.classList.remove('opacity-100');
+                        slide.style.zIndex = '0';
+                        if(dots[i]) dots[i].classList.remove('bg-white');
+                        if(dots[i]) dots[i].classList.add('bg-white/40');
+                    }
+                });
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    clearInterval(slideInterval);
+                    currentSlide = index;
+                    showSlide(currentSlide);
+                    slideInterval = setInterval(nextSlide, 4000);
+                });
+            });
+
+            showSlide(0);
+            slideInterval = setInterval(nextSlide, 4000);
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if(modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if(modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

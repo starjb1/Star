@@ -80,10 +80,11 @@
                     <span class="font-bold text-xl tracking-tight text-dark hidden sm:block">星果科技<span class="text-primary">回收估價</span></span>
                 </div>
                 <div class="flex items-center space-x-6">
-                    <div class="hidden md:flex space-x-8">
-                        <a href="#" class="text-primary font-medium border-b-2 border-primary py-5">線上估價</a>
-                        <a href="#" onclick="openModal('process-modal')" class="text-slate-500 hover:text-primary transition-colors py-5">回收流程</a>
-                        <a href="#" onclick="openModal('faq-modal')" class="text-slate-500 hover:text-primary transition-colors py-5">常見問題</a>
+                    <!-- 移除 hidden，改為手機也能顯示、並支援換行或間距縮小 -->
+                    <div class="flex flex-wrap items-center space-x-4 md:space-x-8 text-sm md:text-base">
+                        <a href="#" class="text-primary font-medium border-b-2 border-primary py-2 md:py-5">線上估價</a>
+                        <a href="#" onclick="openModal('process-modal')" class="text-slate-400 hover:text-primary transition-colors py-2 md:py-5">回收流程</a>
+                        <a href="#" onclick="openModal('faq-modal')" class="text-slate-400 hover:text-primary transition-colors py-2 md:py-5">常見問題</a>
                     </div>
                     <!-- 快速開啟價格管理的按鈕 -->
                     <button onclick="requestPassword()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 shadow-sm">

@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- 新增：網頁基本描述 (SEO) -->
-    <meta name="description" content="星果科技 - 專門收購各大品牌二手手機。AI 智能即時估價，三分鐘掌握舊機價值。流程透明，現場現金結清。">
-    
-    <!-- 新增：Facebook, LINE 等社群分享 Open Graph 標籤 -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="星果科技 | 3C智能估價大廳 - 二手手機即時回收價格">
-    <meta property="og:description" content="全台大數據即時行情，保證無隱藏扣款。最高預估收購價馬上算！舊機貼換新機，享最高 NT$ 1,500 額外折扣。">
-    <!-- 更新：使用 Google 雲端硬碟直連圖片網址 -->
-    <meta property="og:image" content="https://drive.google.com/uc?export=view&id=1G_jzXBXBhFLEbDKHms9T9unLU0AFPzPN">
-    <meta property="og:image:alt" content="星果科技 Logo">
+   <!-- 新增：Facebook, LINE 等社群分享 Open Graph 標籤 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="星果科技 | 3C智能估價大廳 - 二手手機即時回收價格">
+<meta property="og:description" content="全台大數據即時行情，保證無隱藏扣款。最高預估收購價馬上算！舊機貼換新機，享最高 NT$ 1,500 額外折扣。">
+<!-- 記得把副檔名改成 .jpg -->
+<meta property="og:image" content="https://starjb1.github.io/star/logo.jpg">
+<meta property="og:image:alt" content="星果科技 Logo">
     
     <!-- 新增：Twitter (X) 分享標籤 -->
     <meta name="twitter:card" content="summary_large_image">
@@ -74,12 +71,12 @@
 </head>
 <body class="text-slate-800 antialiased">
 
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
+   <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-3 cursor-pointer">
-                    <!-- 更新：使用 Google 雲端硬碟直連圖片網址 -->
-                    <img src="https://drive.google.com/uc?export=view&id=1G_jzXBXBhFLEbDKHms9T9unLU0AFPzPN" alt="星果科技 Logo" class="h-10 w-auto object-contain rounded">
+                    <!-- 使用 GitHub 倉庫內的本地圖片 -->
+                    <img src="logo.jpg" alt="星果科技 Logo" class="h-10 w-auto object-contain rounded">
                     <span class="font-bold text-xl tracking-tight text-dark hidden sm:block">星果科技<span class="text-primary">回收估價</span></span>
                 </div>
                 <div class="flex items-center space-x-6">
@@ -405,16 +402,16 @@
                                 
                                 <!-- 蘋果官網對比區塊 -->
                                 <div id="apple-compare-box" class="mb-4 bg-green-50 border border-green-200 rounded-lg p-3 text-center hidden">
-                                    <div class="text-xs text-green-700 mb-1"><i class="fa-brands fa-apple"></i> 蘋果官網最高僅收購 <span id="apple-price-display" class="font-bold line-through">NT$ 0</span></div>
-                                    <div class="text-sm font-bold text-green-600">來星果科技，您最高可多拿 <span id="extra-earn-display" class="text-lg">NT$ 0</span>！</div>
+                                    <div class="text-xs text-green-700 mb-1"><i class="fa-brands fa-apple"></i> 蘋果官網可能只有 <span id="apple-price-display" class="font-bold line-through">NT$ 0</span></div>
+                                    <div class="text-sm font-bold text-green-600">在星果科技回收，您最高可多拿 <span id="extra-earn-display" class="text-lg">NT$ 0</span>！</div>
                                 </div>
 
                                 <!-- 舊換新折扣橫幅 -->
                                 <div class="mb-4 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-lg p-3 text-center">
                                     <div class="text-sm font-bold text-orange-600 flex items-center justify-center gap-2">
-                                        <i class="fa-solid fa-gift"></i> 舊機貼換新機，享最高 NT$ 1,500 額外折扣
+                                        <i class="fa-solid fa-gift"></i> 舊機貼換新機，再享額外折扣
                                     </div>
-                                    <div class="text-[10px] text-orange-500 mt-1">詳情請洽線上客服或門市人員</div>
+                                    <div class="text-[10px] text-orange-500 mt-1">詳情請洽線上客服</div>
                                 </div>
                                 
                                 <div class="mt-4 pt-4 border-t border-slate-200/60 space-y-2 text-sm" id="deduction-details">
@@ -461,16 +458,18 @@
                             <div class="text-xs text-slate-500 mt-4 bg-blue-50 p-3 rounded-lg border border-blue-100 leading-relaxed">
                                 <p class="font-bold text-primary mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>重要注意事項</p>
                                 <ul class="list-disc pl-4 space-y-1">
-                                    <li>本系統報價 <span class="font-bold text-red-500">暫時僅限收購台灣原廠公司貨（台版）</span>，不收購國外版本/水貨。</li>
+                                    <li>本系統報價 <span class="font-bold text-red-500">暫時僅限收購台灣原廠公司貨（台版）</span>，國外版本/水貨請聯絡客服另外估價。</li>
                                     <li>此為線上初步估價。部分潛在瑕疵（如：<span class="font-bold text-slate-700">鏡頭內部入塵斑點、主機板微受潮、曾更換非原廠零件等</span>）為一般日常使用難以察覺之狀況。</li>
                                     <li>為保障雙方權益，實際收購金額需由工程師進行專業實機檢測後方能確認。若檢測有異，我們將詳細為您解說，絕不強迫回收。</li>
+                                    <li>Apple官方折抵金額可能隨時調整，若本站價格資料未能即時同步更新，請務必至 Apple 官網查詢最新估價標準。</li>
+
                                 </ul>
                             </div>
 
                             <div class="mt-6 space-y-3">
                                 <!-- 綁定 LINE 客服連結 -->
                                 <a href="http://lin.ee/9ikyFKx" target="_blank" class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-0.5 flex justify-center items-center gap-2">
-                                    <i class="fa-solid fa-user-tie"></i> 聯絡人員進行鑑價
+                                    <i class="fa-solid fa-user-tie"></i> 立即連絡客服進行鑑價，有機會獲得加碼金！
                                 </a>
                             </div>
                             <p class="text-[10px] text-slate-400 text-center mt-4">
@@ -690,7 +689,7 @@
 
     <script>
         // 設定管理者密碼（可自行更改引號內的密鑰）
-        const ADMIN_PASSWORD = "1234";
+        const ADMIN_PASSWORD = "0933211733";
 
         const colorSets = {
             pro17: ['橘色', '銀色', '藍色'],
@@ -715,33 +714,33 @@
             ],
             models: {
                 'apple': [
-                    { id: 'ip17pm', name: 'iPhone 17 Pro Max', colors: colorSets.pro17, capacities: [{ cap: '256GB', price: 30000 }, { cap: '512GB', price: 33000 }, { cap: '1TB', price: 37000 }, { cap: '2TB', price: 41000 }] },
-                    { id: 'ip17p', name: 'iPhone 17 Pro', colors: colorSets.pro17, capacities: [{ cap: '256GB', price: 27000 }, { cap: '512GB', price: 31000 }, { cap: '1TB', price: 33000 }] },
-                    { id: 'ip17', name: 'iPhone 17', colors: colorSets.base17, capacities: [{ cap: '256GB', price: 20000 }, { cap: '512GB', price: 23000 }] },
-                    { id: 'ip16pm', name: 'iPhone 16 Pro Max', colors: colorSets.pro16, capacities: [{ cap: '256GB', price: 23000 }, { cap: '512GB', price: 25000 }, { cap: '1TB', price: 27000 }] },
-                    { id: 'ip16p', name: 'iPhone 16 Pro', colors: colorSets.pro16, capacities: [{ cap: '128GB', price: 17000 }, { cap: '256GB', price: 19000 }, { cap: '512GB', price: 21000 }, { cap: '1TB', price: 23000 }] },
-                    { id: 'ip16pl', name: 'iPhone 16 Plus', colors: colorSets.base16, capacities: [{ cap: '128GB', price: 15000 }, { cap: '256GB', price: 17000 }, { cap: '512GB', price: 18000 }] },
-                    { id: 'ip16', name: 'iPhone 16', colors: colorSets.base16, capacities: [{ cap: '128GB', price: 13500 }, { cap: '256GB', price: 15000 }, { cap: '512GB', price: 16500 }] },
-                    { id: 'ip15pm', name: 'iPhone 15 Pro Max', colors: colorSets.pro15, capacities: [{ cap: '256GB', price: 17000 }, { cap: '512GB', price: 18000 }, { cap: '1TB', price: 20000 }] },
-                    { id: 'ip15p', name: 'iPhone 15 Pro', colors: colorSets.pro15, capacities: [{ cap: '128GB', price: 13000 }, { cap: '256GB', price: 15000 }, { cap: '512GB', price: 16000 }, { cap: '1TB', price: 17000 }] },
-                    { id: 'ip15pl', name: 'iPhone 15 Plus', colors: colorSets.base15, capacities: [{ cap: '128GB', price: 12000 }, { cap: '256GB', price: 13000 }, { cap: '512GB', price: 14000 }] },
-                    { id: 'ip15', name: 'iPhone 15', colors: colorSets.base15, capacities: [{ cap: '128GB', price: 11000 }, { cap: '256GB', price: 12000 }, { cap: '512GB', price: 13000 }] },
-                    { id: 'ip14pm', name: 'iPhone 14 Pro Max', colors: colorSets.pro14, capacities: [{ cap: '128GB', price: 10000 }, { cap: '256GB', price: 12000 }, { cap: '512GB', price: 12000 }, { cap: '1TB', price: 13000 }] },
-                    { id: 'ip14p', name: 'iPhone 14 Pro', colors: colorSets.pro14, capacities: [{ cap: '128GB', price: 8000 }, { cap: '256GB', price: 11000 }, { cap: '512GB', price: 10000 }, { cap: '1TB', price: 10500 }] },
-                    { id: 'ip14pl', name: 'iPhone 14 Plus', colors: colorSets.base14, capacities: [{ cap: '128GB', price: 7000 }, { cap: '256GB', price: 8000 }, { cap: '512GB', price: 9000 }] },
-                    { id: 'ip14', name: 'iPhone 14', colors: colorSets.base14, capacities: [{ cap: '128GB', price: 6000 }, { cap: '256GB', price: 7000 }, { cap: '512GB', price: 8000 }] },
-                    { id: 'ip13pm', name: 'iPhone 13 Pro Max', colors: colorSets.pro13, capacities: [{ cap: '128GB', price: 8500 }, { cap: '256GB', price: 9500 }, { cap: '512GB', price: 10500 }, { cap: '1TB', price: 11000 }] },
-                    { id: 'ip13p', name: 'iPhone 13 Pro', colors: colorSets.pro13, capacities: [{ cap: '128GB', price: 7000 }, { cap: '256GB', price: 8000 }, { cap: '512GB', price: 9000 }, { cap: '1TB', price: 9500 }] },
-                    { id: 'ip13', name: 'iPhone 13', colors: colorSets.base13, capacities: [{ cap: '128GB', price: 5000 }, { cap: '256GB', price: 6000 }, { cap: '512GB', price: 6500 }] },
-                    { id: 'ip13m', name: 'iPhone 13 mini', colors: colorSets.base13, capacities: [{ cap: '128GB', price: 4000 }, { cap: '256GB', price: 4500 }, { cap: '512GB', price: 5000 }] },
-                    { id: 'ip12pm', name: 'iPhone 12 Pro Max', colors: colorSets.pro12, capacities: [{ cap: '128GB', price: 6000 }, { cap: '256GB', price: 6500 }, { cap: '512GB', price: 7000 }] },
-                    { id: 'ip12p', name: 'iPhone 12 Pro', colors: colorSets.pro12, capacities: [{ cap: '128GB', price: 4500 }, { cap: '256GB', price: 5000 }, { cap: '512GB', price: 5500 }] },
-                    { id: 'ip12', name: 'iPhone 12', colors: colorSets.base12, capacities: [{ cap: '64GB', price: 3500 }, { cap: '128GB', price: 4000 }, { cap: '256GB', price: 4500 }] },
-                    { id: 'ip12m', name: 'iPhone 12 mini', colors: colorSets.base12, capacities: [{ cap: '64GB', price: 3000 }, { cap: '128GB', price: 3200 }, { cap: '256GB', price: 3500 }] },
-                    { id: 'ip11pm', name: 'iPhone 11 Pro Max', colors: colorSets.pro11, capacities: [{ cap: '64GB', price: 3000 }, { cap: '256GB', price: 3200 }, { cap: '512GB', price: 3500 }] },
-                    { id: 'ip11p', name: 'iPhone 11 Pro', colors: colorSets.pro11, capacities: [{ cap: '64GB', price: 2500 }, { cap: '256GB', price: 2700 }, { cap: '512GB', price: 3000 }] },
-                    { id: 'ip11', name: 'iPhone 11', colors: colorSets.base11, capacities: [{ cap: '64GB', price: 2000 }, { cap: '128GB', price: 2200 }, { cap: '256GB', price: 2500 }] }
-                ]
+                    { id: 'ip17pm', name: 'iPhone 17 Pro Max', colors: colorSets.pro17, capacities: [{ cap: '256GB', price: 31000 }, { cap: '512GB', price: 33500 }, { cap: '1TB', price: 37000 }, { cap: '2TB', price: 41000 }] },
+    { id: 'ip17p', name: 'iPhone 17 Pro', colors: colorSets.pro17, capacities: [{ cap: '256GB', price: 27000 }, { cap: '512GB', price: 31000 }, { cap: '1TB', price: 33000 }] },
+    { id: 'ip17', name: 'iPhone 17', colors: colorSets.base17, capacities: [{ cap: '256GB', price: 20000 }, { cap: '512GB', price: 23000 }] },
+    { id: 'ip16pm', name: 'iPhone 16 Pro Max', colors: colorSets.pro16, capacities: [{ cap: '256GB', price: 23000 }, { cap: '512GB', price: 25000 }, { cap: '1TB', price: 27000 }] },
+    { id: 'ip16p', name: 'iPhone 16 Pro', colors: colorSets.pro16, capacities: [{ cap: '128GB', price: 17000 }, { cap: '256GB', price: 19000 }, { cap: '512GB', price: 21000 }, { cap: '1TB', price: 23000 }] },
+    { id: 'ip16pl', name: 'iPhone 16 Plus', colors: colorSets.base16, capacities: [{ cap: '128GB', price: 15000 }, { cap: '256GB', price: 17000 }, { cap: '512GB', price: 18000 }] },
+    { id: 'ip16', name: 'iPhone 16', colors: colorSets.base16, capacities: [{ cap: '128GB', price: 13500 }, { cap: '256GB', price: 15000 }, { cap: '512GB', price: 16500 }] },
+    { id: 'ip15pm', name: 'iPhone 15 Pro Max', colors: colorSets.pro15, capacities: [{ cap: '256GB', price: 17000 }, { cap: '512GB', price: 18000 }, { cap: '1TB', price: 20000 }] },
+    { id: 'ip15p', name: 'iPhone 15 Pro', colors: colorSets.pro15, capacities: [{ cap: '128GB', price: 13000 }, { cap: '256GB', price: 15000 }, { cap: '512GB', price: 16000 }, { cap: '1TB', price: 17000 }] },
+    { id: 'ip15pl', name: 'iPhone 15 Plus', colors: colorSets.base15, capacities: [{ cap: '128GB', price: 12000 }, { cap: '256GB', price: 13000 }, { cap: '512GB', price: 14000 }] },
+    { id: 'ip15', name: 'iPhone 15', colors: colorSets.base15, capacities: [{ cap: '128GB', price: 11000 }, { cap: '256GB', price: 12000 }, { cap: '512GB', price: 13000 }] },
+    { id: 'ip14pm', name: 'iPhone 14 Pro Max', colors: colorSets.pro14, capacities: [{ cap: '128GB', price: 10000 }, { cap: '256GB', price: 12000 }, { cap: '512GB', price: 12000 }, { cap: '1TB', price: 13000 }] },
+    { id: 'ip14p', name: 'iPhone 14 Pro', colors: colorSets.pro14, capacities: [{ cap: '128GB', price: 8000 }, { cap: '256GB', price: 11000 }, { cap: '512GB', price: 10000 }, { cap: '1TB', price: 10500 }] },
+    { id: 'ip14pl', name: 'iPhone 14 Plus', colors: colorSets.base14, capacities: [{ cap: '128GB', price: 7000 }, { cap: '256GB', price: 8000 }, { cap: '512GB', price: 9000 }] },
+    { id: 'ip14', name: 'iPhone 14', colors: colorSets.base14, capacities: [{ cap: '128GB', price: 6000 }, { cap: '256GB', price: 7000 }, { cap: '512GB', price: 8000 }] },
+    { id: 'ip13pm', name: 'iPhone 13 Pro Max', colors: colorSets.pro13, capacities: [{ cap: '128GB', price: 8500 }, { cap: '256GB', price: 9500 }, { cap: '512GB', price: 10500 }, { cap: '1TB', price: 11000 }] },
+    { id: 'ip13p', name: 'iPhone 13 Pro', colors: colorSets.pro13, capacities: [{ cap: '128GB', price: 7000 }, { cap: '256GB', price: 8000 }, { cap: '512GB', price: 9000 }, { cap: '1TB', price: 9500 }] },
+    { id: 'ip13', name: 'iPhone 13', colors: colorSets.base13, capacities: [{ cap: '128GB', price: 5000 }, { cap: '256GB', price: 6000 }, { cap: '512GB', price: 6500 }] },
+    { id: 'ip13m', name: 'iPhone 13 mini', colors: colorSets.base13, capacities: [{ cap: '128GB', price: 4000 }, { cap: '256GB', price: 4500 }, { cap: '512GB', price: 5000 }] },
+    { id: 'ip12pm', name: 'iPhone 12 Pro Max', colors: colorSets.pro12, capacities: [{ cap: '128GB', price: 6000 }, { cap: '256GB', price: 6500 }, { cap: '512GB', price: 7000 }] },
+    { id: 'ip12p', name: 'iPhone 12 Pro', colors: colorSets.pro12, capacities: [{ cap: '128GB', price: 4500 }, { cap: '256GB', price: 5000 }, { cap: '512GB', price: 5500 }] },
+    { id: 'ip12', name: 'iPhone 12', colors: colorSets.base12, capacities: [{ cap: '64GB', price: 3500 }, { cap: '128GB', price: 4000 }, { cap: '256GB', price: 4500 }] },
+    { id: 'ip12m', name: 'iPhone 12 mini', colors: colorSets.base12, capacities: [{ cap: '64GB', price: 3000 }, { cap: '128GB', price: 3200 }, { cap: '256GB', price: 3500 }] },
+    { id: 'ip11pm', name: 'iPhone 11 Pro Max', colors: colorSets.pro11, capacities: [{ cap: '64GB', price: 3000 }, { cap: '256GB', price: 3200 }, { cap: '512GB', price: 3500 }] },
+    { id: 'ip11p', name: 'iPhone 11 Pro', colors: colorSets.pro11, capacities: [{ cap: '64GB', price: 2500 }, { cap: '256GB', price: 2700 }, { cap: '512GB', price: 3000 }] },
+    { id: 'ip11', name: 'iPhone 11', colors: colorSets.base11, capacities: [{ cap: '64GB', price: 2000 }, { cap: '128GB', price: 2200 }, { cap: '256GB', price: 2500 }] }
+]
             }
         };
 

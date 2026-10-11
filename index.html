@@ -7,13 +7,13 @@
     <!-- 新增：網頁基本描述 (SEO) -->
     <meta name="description" content="星果科技 - 專門收購各大品牌二手手機。AI 智能即時估價，三分鐘掌握舊機價值。流程透明，現場現金結清。">
     
-    <!-- 新增：Facebook, LINE 等社群分享 Open Graph 標籤 -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="星果科技 | 3C智能估價大廳 - 二手手機即時回收價格">
-    <meta property="og:description" content="全台大數據即時行情，保證無隱藏扣款。最高預估收購價馬上算！舊機貼換新機，享最高 NT$ 1,500 額外折扣。">
-    <!-- 更新：使用 Google 雲端硬碟直連圖片網址 -->
-    <meta property="og:image" content="https://drive.google.com/uc?export=view&id=1G_jzXBXBhFLEbDKHms9T9unLU0AFPzPN">
-    <meta property="og:image:alt" content="星果科技 Logo">
+   <!-- 新增：Facebook, LINE 等社群分享 Open Graph 標籤 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="星果科技 | 3C智能估價大廳 - 二手手機即時回收價格">
+<meta property="og:description" content="全台大數據即時行情，保證無隱藏扣款。最高預估收購價馬上算！舊機貼換新機，享最高 NT$ 1,500 額外折扣。">
+<!-- 換成你的完整網址加上圖片檔名 -->
+<meta property="og:image" content="https://starjb1.github.io/star/logo.png">
+<meta property="og:image:alt" content="星果科技 Logo">
     
     <!-- 新增：Twitter (X) 分享標籤 -->
     <meta name="twitter:card" content="summary_large_image">
@@ -689,8 +689,8 @@
     </a>
 
     <script>
-        // 設定管理者密碼（您可以自行修改引號內的字串作為您的專屬密鑰）
-        const ADMIN_PASSWORD = "kevin207931";
+        // 設定管理者密碼（可自行更改引號內的密鑰）
+        const ADMIN_PASSWORD = "1234";
 
         const colorSets = {
             pro17: ['橘色', '銀色', '藍色'],
@@ -1012,11 +1012,22 @@
             const brandData = database.brands.find(b => b.id === currentState.brand);
             const modelData = database.models[currentState.brand].find(m => m.id === currentState.model);
 
+            // 直接從最新 database 抓取基準價格，確保後台修改後右側會即時變動
+            let base = currentState.basePrice;
+            if (currentState.brand && currentState.model && currentState.capacity) {
+                const modelObj = database.models[currentState.brand].find(m => m.id === currentState.model);
+                if (modelObj) {
+                    const capObj = modelObj.capacities.find(c => c.cap === currentState.capacity);
+                    if (capObj) {
+                        base = capObj.price;
+                    }
+                }
+            }
+
             resultBrand.textContent = brandData.name.toUpperCase();
             resultModel.textContent = modelData.name + (currentState.color ? ` (${currentState.color})` : '');
             resultCapacity.textContent = currentState.capacity;
             
-            const base = currentState.basePrice;
             basePriceDisplay.textContent = formatPrice(base);
 
             let screenLoss = Math.round((base * (1 - currentState.screenRatio)) / 100) * 100;
@@ -1113,7 +1124,7 @@
         // ================= 密碼驗證與價格管理後台 =================
         function requestPassword() {
             const password = prompt("請輸入管理者金鑰（密碼）：");
-            if (password === null) return; // 按取消
+            if (password === null) return;
 
             if (password === ADMIN_PASSWORD) {
                 openPriceManager();
@@ -1171,13 +1182,9 @@
             closePriceManager();
             alert('✅ 回收價格已成功更新！畫面估價已同步調整。');
             
+            // 儲存後若右側正顯示估價，立即重新整理計算結果
             if (currentState.model && currentState.capacity) {
-                const selectedModelData = database.models['apple'].find(m => m.id === currentState.model);
-                const selectedCapData = selectedModelData.capacities.find(c => c.cap === currentState.capacity);
-                if (selectedCapData) {
-                    currentState.basePrice = selectedCapData.price;
-                    updateResult();
-                }
+                updateResult();
             }
         }
 
@@ -1187,7 +1194,7 @@
                 database = JSON.parse(JSON.stringify(defaultDatabase));
                 openPriceManager();
                 if (currentState.model && currentState.capacity) {
-                    selectModel(currentState.model);
+                    updateResult();
                 }
                 alert('已還原為預設價格！');
             }
